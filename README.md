@@ -1,14 +1,14 @@
-# IBest
-Unlimited movies, TV shows, and more. Watch anywhere. Cancel anytime. Ready to watch? Enter your email to create or restart your membership. [IBest](http://ibest.pythonanywhere.com/)
+# Movies 2 Egypt
+Unlimited movies, TV shows, and more. Watch anywhere. Cancel anytime. Ready to watch? Enter your email to create or restart your membership. [Movies2Egypt ](http://movies2egypt.pythonanywhere.com)
 
 
 Create Virtual enviroumunt if there isn't
 ```bash
-python3 -m venv ibest
+python3 -m venv movies2egypt
 ```
 Activate The Virtual enviroumunt
 ```bash
-source ibest/bin/activate
+source movies2egypt/bin/activate
 ```
 Install the package requirements
 ```bash
