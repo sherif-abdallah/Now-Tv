@@ -12,7 +12,7 @@ def search_results(request):
     if request.method == "POST":
         search = request.POST['search']
 
-        searched_movies = Movie.objects.filter(title__contains=search)       
+        searched_movies = Movie.objects.filter(title__icontains=search)       
 
         return render(request, 'movie/search.html', {'search':search, 'searched_movies':searched_movies})
     else:
@@ -158,4 +158,3 @@ def MovieDetail_views(request, pk):
                 'descripton_language':descripton_language,
         }
         return render(request, 'movie/movie_detail.html', context)
-
