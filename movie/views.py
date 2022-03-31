@@ -19,7 +19,7 @@ def search_results(request):
     if request.method == "POST":
         search = request.POST['search']
         if PRODUCTION:
-                searched_movies = Movie.objects.raw(f"SELECT * FROM movie_movie WHERE title ILIKE '%{search}%';")
+                searched_movies = Movie.objects.raw(f"SELECT * FROM movie_movie WHERE title LIKE '%{search}';")
                 
         else:
                 searched_movies = Movie.objects.filter(title__contains=search)
