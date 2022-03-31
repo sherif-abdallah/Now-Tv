@@ -20,10 +20,11 @@ def search_results(request):
         search = request.POST['search']
         if PRODUCTION:
                 searched_movies = Movie.objects.raw(f"SELECT * FROM movie_movie WHERE title ILIKE '%{search}%';")
+                print(searched_movies)
         else:
                 searched_movies = Movie.objects.filter(title__contains=search)
-
-        searched_movies = Reverse(searched_movies)
+                searched_movies = Reverse(searched_movies)
+        
         return render(request, 'movie/search.html', {'search':search, 'searched_movies':searched_movies})
     else:
         return render(request, 'movie/search.html', {})
