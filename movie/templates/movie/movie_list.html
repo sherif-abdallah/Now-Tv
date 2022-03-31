@@ -105,7 +105,7 @@
       {% for movie in p reversed %} {% if movie.status == 'TRENDS' %}
 
       <a href="{% url 'movie_detail' movie.pk %}" class="movie-item">
-        <img src="{{ movie.image.url.url }}" alt="{{movie.title}}" />
+        <img src="{{ movie.image.url }}" alt="{{movie.title}}" />
         <div class="movie-item-content">
           <div class="movie-item-title">{{movie.title}}</div>
           <div class="movie-infos">
