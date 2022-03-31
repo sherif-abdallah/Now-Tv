@@ -17,8 +17,8 @@ def Reverse(lst):
 def search_results(request):
     if request.method == "POST":
         search = request.POST['search']
-        searched_movies = Reverse(Movie.objects.filter(title__contains=search))
-        
+        searched_movies = Movie.objects.filter(title__contains=search)
+        searched_movies = Reverse(searched_movies)
         return render(request, 'movie/search.html', {'search':search, 'searched_movies':searched_movies})
     else:
         return render(request, 'movie/search.html', {})
