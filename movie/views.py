@@ -1,14 +1,7 @@
-from django.db.models.base import Model
-from django.views.generic import ListView, DeleteView
-from django.views.generic.detail import DetailView
 from .models import *
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy, reverse
+from django.shortcuts import render
 from django.core.paginator import Paginator
 import langid
-from mysite.settings import PRODUCTION
-
 
 
 def Reverse(lst):
@@ -18,12 +11,9 @@ def Reverse(lst):
 def search_results(request):
     if request.method == "POST":
         search = request.POST['search']
-        if PRODUCTION:
-                searched_movies = Movie.objects.filter(title__search=search)                
-        else:
-                searched_movies = Movie.objects.filter(title__contains=search)
-                searched_movies = Reverse(searched_movies)
-        
+
+        searched_movies = Movie.objects.filter(title__contains=search)       
+
         return render(request, 'movie/search.html', {'search':search, 'searched_movies':searched_movies})
     else:
         return render(request, 'movie/search.html', {})
