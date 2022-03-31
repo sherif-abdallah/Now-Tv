@@ -1,4 +1,4 @@
-import os
+import os, django_heroku, dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -12,6 +12,8 @@ SECRET_KEY = 'django-insecure-o+ovqccdcdjca6f&lr_cp%1qfprfm)8i+dog$5jbn4gkjdfdlk
 
 
 DEBUG = True # True For localhost and False for Live sever
+PRODUCTION = False
+
 
 LIVE_SERVER = True # True for localhost and True for Live server
 
@@ -79,17 +81,12 @@ CLOUDINARY_URL = 'cloudinary://735319388856247:okpgEyo_VbXSUePTcFgiBBw4SFs@watch
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
-# Sqlite
 DATABASES = {
-    'default': {
+    'default': dj_database_url.config() if PRODUCTION else {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }}
-# Postgres
-import dj_database_url
-db_form_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_form_env)
-
+    }
+}
 
 
 # Password validation
@@ -151,3 +148,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+django_heroku.settings(locals()) if PRODUCTION else None
