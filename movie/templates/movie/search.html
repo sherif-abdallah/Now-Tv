@@ -1,0 +1,119 @@
+{% extends 'movie/base.html' %} {% load static %} {% block head %}
+<!-- GOOGLE FONTS -->
+<link
+  href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+  rel="stylesheet"
+/>
+<!-- OWL CAROUSEL -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+  integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+  crossorigin="anonymous"
+/>
+<!-- BOX ICONS -->
+<link
+  href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+  rel="stylesheet"
+/>
+<!-- APP CSS -->
+
+<link rel="stylesheet" href="{% static 'grid.css' %}" />
+<link rel="stylesheet" href="{% static 'app.css' %}" />
+
+<!-- Search Libraries -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
+{% endblock head %} {% block body %}
+
+<form
+  action="{% url 'search_results' %}"
+  autocomplete="off"
+  method="post"
+  spellcheck="false"
+>
+  {% csrf_token %}
+  <div class="flex justify justify-center">
+    <div class="relative">
+      <div class="absolute top-4 left-3">
+        <i class="fa fa-search text-gray-400 z-20 hover:text-gray-500"></i>
+      </div>
+      {% if search %}
+      <input
+        type="text"
+        class="h-14 w-96 pl-10 pr-20 rounded-lg z-0 focus:shadow focus:outline-none"
+        style="color: black !important"
+        placeholder="{{searched_movies.0}}"
+        name="search"
+      />
+      {% else %}
+      <input
+        type="text"
+        class="h-14 w-96 pl-10 pr-20 rounded-lg z-0 focus:shadow focus:outline-none"
+        style="color: black !important"
+        placeholder="NO RESULTS Found"
+        name="search"
+      />
+      {% endif %}
+
+      <div class="absolute top-2 right-2">
+        <button
+          class="h-10 w-20 text-white rounded-lg bg-red-500 hover:bg-red-600"
+          id="searc_submit"
+          spellcheck="false"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+{% if search %}
+<!-- LATEST MOVIES SECTION -->
+<div class="section">
+  <div class="container">
+    <div class="section-header">SEARCH RESULTS FOR {{search}}</div>
+    <div class="movies-slide carousel-nav-center owl-carousel">
+      <!-- MOVIE ITEM -->
+
+      {% for searched_movies in searched_movies %}
+
+      <a href="{% url 'movie_detail' searched_movies.pk %}" class="movie-item">
+        <img src="{{searched_movies.image.url}}" alt="{{searched_movies.title}}" />
+        <div class="movie-item-content">
+          <div class="movie-item-title">{{searched_movies.title}}</div>
+          <div class="movie-infos">
+            <div class="movie-info">
+              <i class="bx bxs-star"></i>
+              <span>{{searched_movies.status}}</span>
+            </div>
+            <div class="movie-info">
+              <i class="bx bxs-time"></i>
+              <span>{{searched_movies.category}}</span>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- END LATEST MOVIES SECTION -->
+{% else %}
+<div class="section">
+  <div class="container">
+    <div class="section-header">You Forget to Search For a Movies...</div>
+  </div>
+</div>
+{% endif %} {% endblock body %}
