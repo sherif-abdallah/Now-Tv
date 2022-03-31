@@ -12,7 +12,7 @@ SECRET_KEY = 'django-insecure-o+ovqccdcdjca6f&lr_cp%1qfprfm)8i+dog$5jbn4gkjdfdlk
 
 
 DEBUG = True # True For localhost and False for Live sever
-PRODUCTION = True
+PRODUCTION = False
 
 
 LIVE_SERVER = True # True for localhost and True for Live server
@@ -70,13 +70,13 @@ TEMPLATES = [
 ]
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-if PRODUCTION == False:
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': 'watch-now',
-        'API_KEY': '735319388856247',
-        'API_SECRET': 'okpgEyo_VbXSUePTcFgiBBw4SFs'
-    }
-    CLOUDINARY_URL = 'cloudinary://735319388856247:okpgEyo_VbXSUePTcFgiBBw4SFs@watch-now'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'watch-now',
+    'API_KEY': '735319388856247',
+    'API_SECRET': 'okpgEyo_VbXSUePTcFgiBBw4SFs'
+}
+CLOUDINARY_URL = 'cloudinary://735319388856247:okpgEyo_VbXSUePTcFgiBBw4SFs@watch-now'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -148,8 +148,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-if PRODUCTION == False:
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 django_heroku.settings(locals()) if PRODUCTION else None
