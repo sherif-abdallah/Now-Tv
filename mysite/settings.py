@@ -12,7 +12,7 @@ SECRET_KEY = 'django-insecure-o+ovqccdcdjca6f&lr_cp%1qfprfm)8i+dog$5jbn4gkjdfdlk
 
 
 DEBUG = True # True For localhost and False for Live sever
-PRODUCTION = False
+PRODUCTION = True
 
 
 LIVE_SERVER = True # True for localhost and True for Live server
