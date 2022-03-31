@@ -1,0 +1,312 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WATCH NOW!</title>
+    <link rel="icon" href="">
+{% block head %}
+{% endblock head %}
+<style>
+    #loader-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+    }
+    #loader {
+      display: block;
+      position: relative;
+      left: 50%;
+      top: 50%;
+      width: 150px;
+      height: 150px;
+      margin: -75px 0 0 -75px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #3498db;
+  
+      -webkit-animation: spin 2s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+      animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+  
+      z-index: 1001;
+    }
+  
+    #loader:before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #e74c3c;
+  
+      -webkit-animation: spin 3s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+      animation: spin 3s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+    }
+  
+    #loader:after {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #f9c922;
+  
+      -webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+      animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+    }
+  
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg); /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(0deg); /* IE 9 */
+        transform: rotate(0deg); /* Firefox 16+, IE 10+, Opera */
+      }
+      100% {
+        -webkit-transform: rotate(360deg); /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(360deg); /* IE 9 */
+        transform: rotate(360deg); /* Firefox 16+, IE 10+, Opera */
+      }
+    }
+    @keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg); /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(0deg); /* IE 9 */
+        transform: rotate(0deg); /* Firefox 16+, IE 10+, Opera */
+      }
+      100% {
+        -webkit-transform: rotate(360deg); /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(360deg); /* IE 9 */
+        transform: rotate(360deg); /* Firefox 16+, IE 10+, Opera */
+      }
+    }
+  
+    #loader-wrapper .loader-section {
+      position: fixed;
+      top: 0;
+      width: 51%;
+      height: 100%;
+      background: #222222;
+      z-index: 1000;
+      -webkit-transform: translateX(0); /* Chrome, Opera 15+, Safari 3.1+ */
+      -ms-transform: translateX(0); /* IE 9 */
+      transform: translateX(0); /* Firefox 16+, IE 10+, Opera */
+    }
+  
+    #loader-wrapper .loader-section.section-left {
+      left: 0;
+    }
+  
+    #loader-wrapper .loader-section.section-right {
+      right: 0;
+    }
+  
+    /* Loaded */
+    .loaded #loader-wrapper .loader-section.section-left {
+      -webkit-transform: translateX(-100%); /* Chrome, Opera 15+, Safari 3.1+ */
+      -ms-transform: translateX(-100%); /* IE 9 */
+      transform: translateX(-100%); /* Firefox 16+, IE 10+, Opera */
+  
+      -webkit-transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+  
+    .loaded #loader-wrapper .loader-section.section-right {
+      -webkit-transform: translateX(100%); /* Chrome, Opera 15+, Safari 3.1+ */
+      -ms-transform: translateX(100%); /* IE 9 */
+      transform: translateX(100%); /* Firefox 16+, IE 10+, Opera */
+  
+      -webkit-transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+  
+    .loaded #loader {
+      opacity: 0;
+      -webkit-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out;
+    }
+    .loaded #loader-wrapper {
+      visibility: hidden;
+  
+      -webkit-transform: translateY(-100%); /* Chrome, Opera 15+, Safari 3.1+ */
+      -ms-transform: translateY(-100%); /* IE 9 */
+      transform: translateY(-100%); /* Firefox 16+, IE 10+, Opera */
+  
+      -webkit-transition: all 0.3s 1s ease-out;
+      transition: all 0.3s 1s ease-out;
+    }
+    #disable-while-loading{
+        display: none;
+    }
+    #owner:hover{
+      text-decoration: underline;
+    }
+  </style>
+
+</head>
+
+<body onload="loader()">
+
+    
+
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>    
+
+    <div id="disable-while-loading">
+    <!-- NAV -->
+    <div class="nav-wrapper">
+        <div class="container">
+            <div class="nav">
+                <a href="{% url 'movie_list' %}" class="logo">
+                    WATCH <span class="main-color">NOW!</span></span>
+                </a>
+
+                <!-- MOBILE MENU TOGGLE -->
+                <div class="hamburger-menu" id="hamburger-menu">
+                    <div class="hamburger"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END NAV -->
+    <br>
+    {% block body %}
+    {% endblock body %}
+
+
+
+
+
+
+
+
+    <!-- FOOTER SECTION -->
+    <footer class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-4 col-md-6 col-sm-12">
+                    <div class="content">
+                      <a href="/" class="logo">
+                        WATCH <span class="main-color">NOW!</span>
+                        </a>
+                        <p>
+                            Unlimited movies, TV shows, and more. Watch anywhere. Cancel anytime. Ready to watch? Enter
+                            your email to create or restart your membership.
+                        </p>
+                        <div class="social-list">
+                            <a target="_blank" href="https://www.facebook.com/flix.org" class="social-item">
+                                <i class="bx bxl-facebook"></i>
+                            </a>
+                            <a href="#" class="social-item">
+                                <i class="bx bxl-twitter"></i>
+                            </a>
+                            <a href="#" class="social-item">
+                                <i class="bx bxl-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 col-md-6 col-sm-12">
+                    <div class="row">
+                        <div class="col-3 col-md-6 col-sm-6">
+                            <div class="content">
+                                <ul class="footer-menu">
+                                    <li><a href="{% url 'about' %}">About us</a></li>
+                                    <li><a href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&to=sherifabdalla2005@gmail.com">Contact us</a></li>
+                                    <li><a href="https://github.com/sherif-abdallah">My profile</a></li>
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </footer>
+
+    <!-- END FOOTER SECTION -->
+
+    <!-- COPYRIGHT SECTION -->
+    <div class="copyright" id="copyright">
+        Copyright 2021 Sherif Abdullah</a>
+    </div>
+    </div>
+
+    <!-- END COPYRIGHT SECTION -->
+
+    <!-- SCRIPT -->
+    <!-- JQUERY -->
+    <!-- AJAX -->
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script>
+        function loader() {
+        $('body').addClass('loaded');
+        const d = new Date();
+        let year = d.getFullYear();
+        document.getElementById("copyright").innerHTML = "Copyright " + year + "<a id='owner' href='https://www.facebook.com/sheerif.abdullah/'> Sherif Abdullah</a>";
+
+        document.getElementById("disable-while-loading").style = "display: block;";
+
+        var url = document.referrer;
+
+        if (document.referrer == "") {
+            url = "https://www.example.com/"
+        }
+        let domain = (new URL(url));
+        referrer_domain = domain.hostname;
+        console.log("referrer_domain -> " + referrer_domain);
+
+
+        my_domain = window.location.hostname;
+
+        console.log("My domain -> " + my_domain);
+
+
+        if (referrer_domain != my_domain) {
+          var audio = new Audio('{% static "netflix_effect.mp3" %}');
+          audio.play();
+        }
+
+        
+        }
+
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+       
+
+    <!-- OWL CAROUSEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"  integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+    <!-- APP SCRIPT -->
+    <script src="{% static 'app.js' %}"></script>
+    <!-- ADS -->
+    <!-- <script type="text/javascript" src="https://pjjpp.com/pun.php?section=General&pt=6&pub=672386&ga=g"></script> -->
+
+
+
+</body>
+
+</html>

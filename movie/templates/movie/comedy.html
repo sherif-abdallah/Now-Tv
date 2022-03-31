@@ -1,0 +1,154 @@
+{% extends 'movie/base.html' %} {% load static %} {% block head %}
+<!-- GOOGLE FONTS -->
+<link
+  href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+  rel="stylesheet"
+/>
+<!-- OWL CAROUSEL -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+  integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+  crossorigin="anonymous"
+/>
+<!-- BOX ICONS -->
+<link
+  href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+  rel="stylesheet"
+/>
+<!-- APP CSS -->
+<link rel="stylesheet" href="{% static 'grid.css' %}" />
+<link rel="stylesheet" href="{% static 'category.css' %}" />
+<!-- Search Libraries -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
+<link rel="stylesheet" href="" />
+<style>
+  center a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+  }
+
+  center a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .previous {
+    background-color: #f1f1f1;
+    color: black;
+  }
+
+  .next {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  .round {
+    border-radius: 50%;
+  }
+</style>
+{% endblock head %} {% block body %}
+<form
+  action="{% url 'search_results' %}"
+  autocomplete="off"
+  method="post"
+  spellcheck="false"
+>
+  {% csrf_token %}
+
+  <div class="flex justify justify-center">
+    <div class="relative">
+      <div class="absolute top-4 left-3">
+        <i class="fa fa-search text-gray-400 z-20 hover:text-gray-500"></i>
+      </div>
+      <input
+        type="text"
+        class="h-14 w-96 pl-10 pr-20 rounded-lg z-0 focus:shadow focus:outline-none"
+        style="color: black !important"
+        placeholder="Search for Movies..."
+        name="search"
+      />
+      <div class="absolute top-2 right-2">
+        <button
+          class="h-10 w-20 text-white rounded-lg bg-red-500 hover:bg-red-600"
+          id="searc_submit"
+          spellcheck="false"
+          type="submit"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="section">
+  <div class="container" style="margin-right: 11.5em">
+    <div class="section-header">COMEDY</div>
+  </div>
+  <div
+    id="group"
+    style="
+      display: flex;
+      flex-wrap: wrap;
+      padding: 2em;
+      margin: 1em;
+      justify-content: space-evenly;
+    "
+  >
+    {% for movie in movie %} {% if movie.category == 'COMEDY' %}
+    <div id="block" style="width: 320px; padding: 0.4em; padding-bottom: 1.5em">
+      <a
+        href="{% url 'movie_detail' movie.pk %}"
+        class="movie-item"
+        style="height: 450px"
+      >
+        <img
+          style="height: 450px"
+          src="{{movie.image.url}}"
+          alt="{{movie.title}}"
+        />
+        <div class="movie-item-content">
+          <div class="movie-item-title">{{movie.title}}</div>
+          <div class="movie-infos">
+            <div class="movie-info">
+              <i class="bx bxs-star"></i>
+              <span>{{movie.status}}</span>
+            </div>
+            <div class="movie-info">
+              <i class="bx bxs-time"></i>
+              <span>{{movie.category}}</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endif %} {% endfor %}
+  </div>
+</div>
+
+<div class="center">
+  <div class="pagination">
+    {% if movie.has_previous %}
+    <a href="?page={{ movie.previous_page_number }}">&laquo;</a>
+    {% endif %}
+    <a class="active">Page {{movie.number}} of {{movie.paginator.num_pages}}</a>
+    {% if movie.has_next %}
+    <a href="?page={{ movie.next_page_number }}">&raquo;</a>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock body %}
