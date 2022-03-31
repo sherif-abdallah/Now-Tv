@@ -11,7 +11,7 @@ SECRET_KEY = 'django-insecure-o+ovqccdcdjca6f&lr_cp%1qfprfm)8i+dog$5jbn4gkjdfdlk
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-DEBUG = False # True For localhost and False for Live sever
+DEBUG = True # True For localhost and False for Live sever
 PRODUCTION = True
 
 
