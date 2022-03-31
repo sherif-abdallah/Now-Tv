@@ -254,7 +254,24 @@
     <!-- SCRIPT -->
     <!-- JQUERY -->
     <!-- AJAX -->
-
+    <script>
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      navigator.mediaDevices
+          .getUserMedia({audio: true, sound: true})
+          .then(() => {
+              const source = audioContext.createBufferSource();
+              source.addEventListener('ended', () => {
+                  source.stop();
+                  audioContext.close();
+              });
+      
+              const request = new XMLHttpRequest();
+      
+      
+          })
+          .catch(reason => console.error(`Audio permissions denied: ${reason}`));
+    </script>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
@@ -301,6 +318,8 @@
     <script src="{% static 'app.js' %}"></script>
     <!-- ADS -->
     <!--<script type="text/javascript" src="https://pjjpp.com/pun.php?section=General&pt=6&pub=672386&ga=g"></script>-->
+
+
 
 </body>
 
