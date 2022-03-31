@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.core.paginator import Paginator
 import langid
+from mysite.settings import PRODUCTION
 
 
 
@@ -17,7 +18,11 @@ def Reverse(lst):
 def search_results(request):
     if request.method == "POST":
         search = request.POST['search']
-        searched_movies = Movie.objects.filter(title__contains=search)
+        if PRODUCTION:
+                searched_movies = Movie.objects.raw(f"SELECT * FROM movie_movie WHERE title ILIKE '%{search}%';")
+        else:
+                searched_movies = Movie.objects.filter(title__contains=search)
+
         searched_movies = Reverse(searched_movies)
         return render(request, 'movie/search.html', {'search':search, 'searched_movies':searched_movies})
     else:
