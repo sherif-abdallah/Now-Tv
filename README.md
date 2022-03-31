@@ -1,14 +1,14 @@
 # WATCH NOW!
-Unlimited movies, TV shows, and more. Watch anywhere. Cancel anytime. Ready to watch? Enter your email to create or restart your membership. [Movies2Egypt ](http://movies2egypt.pythonanywhere.com)
+Unlimited movies, TV shows, and more. Watch anywhere. Cancel anytime. Ready to watch? Enter your email to create or restart your membership. [WARCH NOW!](https://watch--now.herokuapp.com/)
 
 
 Create Virtual enviroumunt if there isn't
 ```bash
-python3 -m venv movies2egypt
+python3 -m venv watchnow
 ```
 Activate The Virtual enviroumunt
 ```bash
-source movies2egypt/bin/activate
+source watchnow/bin/activate
 ```
 Install the package requirements
 ```bash
