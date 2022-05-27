@@ -1,5 +1,5 @@
 # NOW
-Unlimited movies, TV shows, and more. Watch anywhere. Cancel anytime. Ready to watch? Enter your email to create or restart your membership. [WARCH NOW!](https://nowtv.pythonanywhere.com/)
+Unlimited movies, TV shows, and more. Watch anywhere. Cancel anytime. Ready to watch? Enter your email to create or restart your membership. [NOW TV](https://nowtv.pythonanywhere.com/)
 
 
 Create Virtual enviroumunt if there isn't
